@@ -7,6 +7,7 @@ import pep8 as pycodestyle
 import time
 import unittest
 from unittest import mock
+from unittest.mock import patch
 from models.base_model import BaseModel
 
 BaseModel = models.base_model.BaseModel
@@ -148,10 +149,25 @@ class TestBaseModel(unittest.TestCase):
         string = "[BaseModel] ({}) {}".format(inst.id, inst.__dict__)
         self.assertEqual(string, str(inst))
 
-    @mock.patch('models.storage')
-    def test_save(self, mock_storage):
-        """Test that save method updates `updated_at` and calls
-        `storage.save`"""
+    # @mock.patch('models.storage')
+    # def test_save(self, mock_storage):
+    #     """Test that save method updates `updated_at` and calls
+    #     `storage.save`"""
+    #     inst = BaseModel()
+    #     old_created_at = inst.created_at
+    #     old_updated_at = inst.updated_at
+    #     inst.save()
+    #     new_created_at = inst.created_at
+    #     new_updated_at = inst.updated_at
+    #     self.assertNotEqual(old_updated_at, new_updated_at)
+    #     self.assertEqual(old_created_at, new_created_at)
+    #     self.assertTrue(mock_storage.new.called)
+    #     self.assertTrue(mock_storage.save.called)
+
+    @patch('models.base_model.storage')
+    def test_save_method(self, mock_storage):
+        """Test the save method updates `updated_at`
+        and calls storage methods"""
         inst = BaseModel()
         old_created_at = inst.created_at
         old_updated_at = inst.updated_at
