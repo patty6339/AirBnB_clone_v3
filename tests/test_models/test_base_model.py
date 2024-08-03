@@ -164,7 +164,7 @@ class TestBaseModel(unittest.TestCase):
     #     self.assertTrue(mock_storage.new.called)
     #     self.assertTrue(mock_storage.save.called)
 
-    @patch('models.base_model.storage')
+    @patch('models.storage')
     def test_save_method(self, mock_storage):
         """Test the save method updates `updated_at`
         and calls storage methods"""
