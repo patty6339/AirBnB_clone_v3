@@ -6,10 +6,10 @@ Contains the TestReviewDocs classes
 from datetime import datetime
 import inspect
 import models
-from models import review
-from models.base_model import BaseModel
 import pep8
 import unittest
+from models import review
+from models.base_model import BaseModel
 Review = review.Review
 
 

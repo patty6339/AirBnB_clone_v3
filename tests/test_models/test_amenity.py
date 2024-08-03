@@ -6,10 +6,10 @@ Contains the TestAmenityDocs classes
 from datetime import datetime
 import inspect
 import models
-from models import amenity
-from models.base_model import BaseModel
 import pep8
 import unittest
+from models import amenity
+from models.base_model import BaseModel
 Amenity = amenity.Amenity
 
 

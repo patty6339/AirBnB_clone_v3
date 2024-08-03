@@ -1,9 +1,9 @@
 #!/usr/bin/python
 """ holds class Amenity"""
-import models
-from models.base_model import BaseModel, Base
 from os import getenv
+import models
 import sqlalchemy
+from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 

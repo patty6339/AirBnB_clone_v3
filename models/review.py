@@ -1,10 +1,10 @@
 #!/usr/bin/python
 """ holds class Review"""
-import models
-from models.base_model import BaseModel, Base
 from os import getenv
+import models
 import sqlalchemy
-from sqlalchemy import Column, String, ForeignKey
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, ForeignKey, String
 
 
 class Review(BaseModel, Base):

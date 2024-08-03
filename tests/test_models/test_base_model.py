@@ -7,17 +7,17 @@ import pep8 as pycodestyle
 import time
 import unittest
 from unittest import mock
+
 BaseModel = models.base_model.BaseModel
-# module_doc = models.base_model.__doc__
 
 
 class TestBaseModelDocs(unittest.TestCase):
     """Tests to check the documentation and style of BaseModel class"""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Set up for docstring tests"""
-        self.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
+        cls.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
 
     def test_pep8_conformance(self):
         """Test that models/base_model.py conforms to PEP8."""
@@ -52,7 +52,7 @@ class TestBaseModelDocs(unittest.TestCase):
                 )
                 self.assertTrue(
                     len(func[1].__doc__) > 1,
-                    "{:s} method needs a docstring".format(func[0])
+                    "{:s} method needs a docstring".format(func[0]))
 
 
 class TestBaseModel(unittest.TestCase):

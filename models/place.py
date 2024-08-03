@@ -1,10 +1,10 @@
 #!/usr/bin/python
 """ holds class Place"""
-import models
-from models.base_model import BaseModel, Base
 from os import getenv
+import models
 import sqlalchemy
-from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, Float, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 
 if models.storage_t == 'db':
