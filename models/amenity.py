@@ -19,3 +19,7 @@ class Amenity(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes Amenity"""
         super().__init__(*args, **kwargs)
+
+    def __str__(self):
+        """Returns a string representation of the Amenity instance"""
+        return "[Amenity] ({}) {}".format(self.id, self.__dict__)
