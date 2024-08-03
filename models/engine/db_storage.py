@@ -11,7 +11,6 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-from models import classes
 from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
@@ -22,7 +21,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """interacts with the MySQL database"""
+    """interaacts with the MySQL database"""
     __engine = None
     __session = None
 
@@ -33,21 +32,13 @@ class DBStorage:
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
-
-        # print(f"HBNB_MYSQL_USER: {HBNB_MYSQL_USER}")
-        # print(f"HBNB_MYSQL_PWD: {HBNB_MYSQL_PWD}")
-        # print(f"HBNB_MYSQL_HOST: {HBNB_MYSQL_HOST}")
-        # print(f"HBNB_MYSQL_DB: {HBNB_MYSQL_DB}")
-        # print(f"HBNB_ENV: {HBNB_ENV}")
-
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
                                              HBNB_MYSQL_DB))
         if HBNB_ENV == "test":
-            self.drop_all_tables()
-        self.reload()
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """query on the current database session"""
@@ -58,7 +49,7 @@ class DBStorage:
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     new_dict[key] = obj
-        return new_dict
+        return (new_dict)
 
     def new(self, obj):
         """add the object to the current database session"""
@@ -75,13 +66,16 @@ class DBStorage:
 
     def reload(self):
         """reloads data from the database"""
+        Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
-        self.__session = Session()
+        self.__session = Session
 
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    # Task 2 - adding get and count methods
 
     def get(self, cls, id):
         """
@@ -105,9 +99,9 @@ class DBStorage:
                 nobjects += len(self.__session.query(classes[clss]).all())
         return nobjects
 
-    def drop_all_tables(self):
-        """Drops all tables in the database"""
-        for clss in classes.values():
-            self.__engine.execute(
-                f"DROP TABLE IF EXISTS {clss.__tablename__} CASCADE"
-            )
+    # def drop_all_tables(self):
+    #     """Drops all tables in the database"""
+    #     for clss in classes.values():
+    #         self.__engine.execute(
+    #             f"DROP TABLE IF EXISTS {clss.__tablename__} CASCADE"
+    #         )
