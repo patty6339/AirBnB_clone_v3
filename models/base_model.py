@@ -4,7 +4,6 @@ Contains class BaseModel
 """
 
 from datetime import datetime, timezone
-import models
 from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String, DateTime
@@ -13,18 +12,17 @@ import uuid
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
-if models.storage_t == "db":
-    Base = declarative_base()
-else:
-    Base = object
+Base = declarative_base()
 
 
-class BaseModel:
+class BaseModel(Base):
     """The BaseModel class from which future classes will be derived"""
-    if models.storage_t == "db":
-        id = Column(String(60), primary_key=True)
-        created_at = Column(DateTime, default=datetime.now(timezone.utc))
-        updated_at = Column(DateTime, default=datetime.now(timezone.utc))
+
+    __abstract__ = True
+
+    id = Column(String(60), primary_key=True, default=str(uuid.uuid4()))
+    created_at = Column(DateTime, default=datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=datetime.now(timezone.utc))
 
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
@@ -55,8 +53,9 @@ class BaseModel:
     def save(self):
         """updates the attribute 'updated_at' with the current datetime"""
         self.updated_at = datetime.now(timezone.utc)
-        models.storage.new(self)
-        models.storage.save()
+        from models import storage
+        storage.new(self)
+        storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of the instance"""
@@ -72,4 +71,5 @@ class BaseModel:
 
     def delete(self):
         """delete the current instance from the storage"""
-        models.storage.delete(self)
+        from models import storage
+        storage.delete(self)
