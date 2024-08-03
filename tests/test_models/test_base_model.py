@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Test BaseModel for expected behavior and documentation"""
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import inspect
 import models
 import pep8 as pycodestyle
@@ -87,14 +87,14 @@ class TestBaseModel(unittest.TestCase):
         value."""
 
         buffer = timedelta(milliseconds=100)
-        tic = datetime.utcnow()
+        tic = datetime.now(timezone.utc)
         inst1 = BaseModel()
-        toc = datetime.utcnow()
+        toc = datetime.now(timezone.utc)
         self.assertTrue(tic - buffer <= inst1.created_at <= toc + buffer)
         time.sleep(1e-4)
-        tic = datetime.utcnow()
+        tic = datetime.now(timezone.utc)
         inst2 = BaseModel()
-        toc = datetime.utcnow()
+        toc = datetime.now(timezone.utc)
         self.assertTrue(tic <= inst2.created_at <= toc + buffer)
         self.assertEqual(inst1.created_at, inst1.updated_at)
         self.assertEqual(inst2.created_at, inst2.updated_at)
