@@ -4,12 +4,7 @@ initialize the models package
 """
 
 from os import getenv
-from models.amenity import Amenity
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
-from models.user import User
+
 
 storage_t = getenv("HBNB_TYPE_STORAGE")
 
@@ -20,12 +15,3 @@ else:
     from models.engine.file_storage import FileStorage
     storage = FileStorage()
 storage.reload()
-
-classes = {
-    "Amenity": Amenity,
-    "City": City,
-    "Place": Place,
-    "Review": Review,
-    "State": State,
-    "User": User
-}
