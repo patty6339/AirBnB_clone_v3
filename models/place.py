@@ -54,6 +54,10 @@ class Place(BaseModel, Base):
         """initializes Place"""
         super().__init__(*args, **kwargs)
 
+    def __str__(self):
+        """Returns a string representation of the Place instance"""
+        return "[Place] ({}) {}".format(self.id, self.__dict__)
+
     if models.storage_t != 'db':
         @property
         def reviews(self):

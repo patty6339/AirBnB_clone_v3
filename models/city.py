@@ -22,3 +22,7 @@ class City(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes city"""
         super().__init__(*args, **kwargs)
+
+    def __str__(self):
+        """Returns a string representation of the City instance"""
+        return "[City] ({}) {}".format(self.id, self.__dict__)

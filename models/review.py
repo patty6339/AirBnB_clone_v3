@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """ holds class Review"""
 from os import getenv
 import models
@@ -22,3 +22,7 @@ class Review(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes Review"""
         super().__init__(*args, **kwargs)
+
+    def __str__(self):
+        """Returns a string representation of the Review instance"""
+        return "[Review] ({}) {}".format(self.id, self.__dict__)

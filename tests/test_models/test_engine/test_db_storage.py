@@ -90,7 +90,11 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
         """Test that get properly returns a requested object"""
-        user = User(name="User1")
+        user = User(
+            name="User1",
+            email="user1@example.com",
+            password="password123"
+        )
         user.save()
         self.assertEqual(models.storage.get("User", user.id), user)
 
