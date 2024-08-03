@@ -12,3 +12,4 @@ api/v1/__pycache__/__init__.cpython-312.pyc
 api/v1/__pycache__/app.cpython-312.pyc
 api/v1/views/__pycache__/index.cpython-312.pyc
 api/v1/views/__pycache__/__init__.cpython-312.pyc
+api/v1/views/__pycache__/states.cpython-312.pyc
