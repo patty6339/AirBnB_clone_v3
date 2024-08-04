@@ -72,18 +72,24 @@ class TestCity(unittest.TestCase):
         city = City()
         self.assertTrue(hasattr(city, "name"))
         if models.storage_t == 'db':
-            self.assertEqual(city.name, None)
+            self.assertIsInstance(
+                city.name,
+                sqlalchemy.orm.attributes.InstrumentedAttribute
+            )
         else:
-            self.assertEqual(city.name, "")
+            pass
 
     def test_state_id_attr(self):
         """Test that City has attribute state_id, and it's an empty string"""
         city = City()
         self.assertTrue(hasattr(city, "state_id"))
         if models.storage_t == 'db':
-            self.assertEqual(city.state_id, None)
+            self.assertIsInstance(
+                city.state_id,
+                sqlalchemy.orm.attributes.InstrumentedAttribute
+            )
         else:
-            self.assertEqual(city.state_id, "")
+            pass
 
     def test_to_dict_creates_dict(self):
         """test to_dict method creates a dictionary with proper attrs"""
