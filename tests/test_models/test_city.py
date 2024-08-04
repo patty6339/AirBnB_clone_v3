@@ -72,7 +72,7 @@ class TestCity(unittest.TestCase):
         city = City()
         self.assertTrue(hasattr(city, "name"))
         if models.storage_t == 'db':
-            self.assertIsNotNone(city.name)
+            self.assertIsNone(city.name)
         else:
             self.assertIsNotNone(city.name)
 
@@ -81,9 +81,9 @@ class TestCity(unittest.TestCase):
         city = City()
         self.assertTrue(hasattr(city, "state_id"))
         if models.storage_t == 'db':
-            self.assertTrue(hasattr(city, "state_id"))
+            self.assertIsNone(city.state_id)
         else:
-            self.assertIsNotNone(city.state_id)
+            self.assertEqual(city.state_id, "")
 
     def test_to_dict_creates_dict(self):
         """test to_dict method creates a dictionary with proper attrs"""
