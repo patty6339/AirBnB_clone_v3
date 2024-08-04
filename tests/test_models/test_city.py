@@ -6,10 +6,10 @@ Contains the TestCityDocs classes
 from datetime import datetime
 import inspect
 import models
-import pep8
-import unittest
 from models import city
 from models.base_model import BaseModel
+import pep8
+import unittest
 City = city.City
 
 
@@ -72,24 +72,18 @@ class TestCity(unittest.TestCase):
         city = City()
         self.assertTrue(hasattr(city, "name"))
         if models.storage_t == 'db':
-            self.assertIsInstance(
-                city.name,
-                sqlalchemy.orm.attributes.InstrumentedAttribute
-            )
+            self.assertIsNone(city.name)
         else:
-            pass
+            self.assertEqual(city.name, "")
 
     def test_state_id_attr(self):
         """Test that City has attribute state_id, and it's an empty string"""
         city = City()
         self.assertTrue(hasattr(city, "state_id"))
         if models.storage_t == 'db':
-            self.assertIsInstance(
-                city.state_id,
-                sqlalchemy.orm.attributes.InstrumentedAttribute
-            )
+            self.assertIsNone(city.state_id)
         else:
-            pass
+            self.assertEqual(city.state_id, "")
 
     def test_to_dict_creates_dict(self):
         """test to_dict method creates a dictionary with proper attrs"""
@@ -98,7 +92,7 @@ class TestCity(unittest.TestCase):
         self.assertEqual(type(new_d), dict)
         self.assertFalse("_sa_instance_state" in new_d)
         for attr in c.__dict__:
-            if attr != "_sa_instance_state":
+            if attr is not "_sa_instance_state":
                 self.assertTrue(attr in new_d)
         self.assertTrue("__class__" in new_d)
 
