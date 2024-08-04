@@ -10,6 +10,7 @@ import sqlalchemy
 import uuid
 from sqlalchemy import Column, DateTime, String
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import VARCHAR
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
