@@ -1,4 +1,10 @@
 #!/usr/bin/python3
+"""
+    Routes:
+        /status:    display "status":"OK"
+        /stats:     display total for all classes
+"""
+
 from flask import jsonify
 from models import storage
 from api.v1.views import app_views
