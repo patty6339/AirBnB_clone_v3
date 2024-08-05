@@ -1,5 +1,6 @@
 #!/usr/bin/python
 """ holds class Place"""
+
 from os import getenv
 import models
 import sqlalchemy

@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""This module creates a Flask app"""
+
 from flask import jsonify, request, abort
 from models import storage
 from models.user import User
