@@ -27,6 +27,18 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
+        if 'password' in kwargs:
+            self.password = kwargs['password']
+
+    @property
+    def password(self):
+        """Getter for password"""
+        return self._password
+
+    @password.setter
+    def password(self, value):
+        """Setter for password, hashes the password before storing"""
+        self._password = hashlib.md5(value.encode()).hexdigest()
 
     def __str__(self):
         """Returns a string representation of the User instance"""
