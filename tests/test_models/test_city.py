@@ -9,6 +9,7 @@ import models
 from models import city
 from models.base_model import BaseModel
 import pep8
+import sqlalchemy
 from sqlalchemy import Column
 import unittest
 City = city.City
