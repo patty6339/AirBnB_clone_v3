@@ -11,6 +11,7 @@ import unittest
 from models import state
 from models.base_model import BaseModel
 import sqlalchemy
+from sqlalchemy import Column
 State = state.State
 
 
