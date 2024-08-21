@@ -57,6 +57,135 @@ INSERT INTO `cities` VALUES ('521a55f4-7d82-47d9-b54c-a76916479545','2017-03-25 
 /*!40000 ALTER TABLE `cities` ENABLE KEYS */;
 UNLOCK TABLES;
 
+-- Table structure for table `users`
+CREATE TABLE `users` (
+  `id` varchar(60) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `first_name` varchar(128),
+  `last_name` varchar(128),
+  `created_at` datetime,
+  `updated_at` datetime,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES 
+('user1', 'user1@example.com', 'password1', 'John', 'Doe', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('user2', 'user2@example.com', 'password2', 'Jane', 'Smith', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('user3', 'user3@example.com', 'password3', 'Alice', 'Johnson', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('user4', 'user4@example.com', 'password4', 'Bob', 'Brown', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('user5', 'user5@example.com', 'password5', 'Charlie', 'Davis', '2023-10-01 12:00:00', '2023-10-01 12:00:00');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+-- Create table `reviews`
+CREATE TABLE `reviews` (
+  `id` varchar(60) NOT NULL,
+  `place_id` varchar(60) NOT NULL,
+  `user_id` varchar(60) NOT NULL,
+  `text` varchar(1024) NOT NULL,
+  `created_at` datetime,
+  `updated_at` datetime,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`place_id`) REFERENCES `places` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Insert dummy data into `reviews`
+LOCK TABLES `reviews` WRITE;
+/*!40000 ALTER TABLE `reviews` DISABLE KEYS */;
+INSERT INTO `reviews` VALUES 
+('review1', '1', 'user1', 'Great place, very cozy!', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('review2', '2', 'user2', 'Amazing view and location.', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('review3', '3', 'user3', 'Had a wonderful time here.', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('review4', '4', 'user4', 'Very clean and well-maintained.', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('review5', '5', 'user5', 'Spacious and comfortable.', '2023-10-01 12:00:00', '2023-10-01 12:00:00');
+/*!40000 ALTER TABLE `reviews` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `places`
+--
+
+CREATE TABLE `places` (
+  `id` varchar(60) NOT NULL,
+  `city_id` varchar(60) NOT NULL,
+  `user_id` varchar(60) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `description` varchar(1024),
+  `number_rooms` int NOT NULL,
+  `number_bathrooms` int NOT NULL,
+  `max_guest` int NOT NULL,
+  `price_by_night` int NOT NULL,
+  `latitude` float,
+  `longitude` float,
+  `created_at` datetime,
+  `updated_at` datetime,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `places`
+--
+
+LOCK TABLES `places` WRITE;
+/*!40000 ALTER TABLE `places` DISABLE KEYS */;
+INSERT INTO `places` VALUES 
+('1', '521a55f4-7d82-47d9-b54c-a76916479545', 'user1', 'Cozy Cottage', 'A small, cozy cottage in the woods.', 2, 1, 4, 100, 34.0522, -118.2437, '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('2', '521a55f4-7d82-47d9-b54c-a76916479546', 'user2', 'Beach House', 'A beautiful beach house with ocean views.', 3, 2, 6, 200, 36.7783, -119.4179, '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('3', '521a55f4-7d82-47d9-b54c-a76916479547', 'user3', 'Mountain Cabin', 'A rustic cabin in the mountains.', 4, 3, 8, 150, 39.7392, -104.9903, '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('4', '521a55f4-7d82-47d9-b54c-a76916479548', 'user4', 'City Apartment', 'A modern apartment in the city center.', 2, 2, 4, 120, 40.7128, -74.0060, '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('5', '521a55f4-7d82-47d9-b54c-a76916479549', 'user5', 'Country House', 'A spacious house in the countryside.', 5, 4, 10, 250, 37.7749, -122.4194, '2023-10-01 12:00:00', '2023-10-01 12:00:00');
+/*!40000 ALTER TABLE `places` ENABLE KEYS */;
+UNLOCK TABLES;
+
+-- Create table `place_amenity`
+CREATE TABLE `place_amenity` (
+  `place_id` varchar(60) NOT NULL,
+  `amenity_id` varchar(60) NOT NULL,
+  PRIMARY KEY (`place_id`, `amenity_id`),
+  FOREIGN KEY (`place_id`) REFERENCES `places` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`amenity_id`) REFERENCES `amenities` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Insert dummy data into `place_amenity`
+LOCK TABLES `place_amenity` WRITE;
+/*!40000 ALTER TABLE `place_amenity` DISABLE KEYS */;
+INSERT INTO `place_amenity` VALUES 
+('1', 'amenity1'),
+('2', 'amenity2'),
+('3', 'amenity3'),
+('4', 'amenity4'),
+('5', 'amenity5');
+/*!40000 ALTER TABLE `place_amenity` ENABLE KEYS */;
+UNLOCK TABLES;
+
+-- Create table `amenities`
+CREATE TABLE `amenities` (
+  `id` varchar(60) NOT NULL,
+  `name` varchar(128) NOT NULL,
+  `created_at` datetime,
+  `updated_at` datetime,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Insert dummy data into `amenities`
+LOCK TABLES `amenities` WRITE;
+/*!40000 ALTER TABLE `amenities` DISABLE KEYS */;
+INSERT INTO `amenities` VALUES 
+('amenity1', 'WiFi', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('amenity2', 'Pool', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('amenity3', 'Parking', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('amenity4', 'Air Conditioning', '2023-10-01 12:00:00', '2023-10-01 12:00:00'),
+('amenity5', 'Gym', '2023-10-01 12:00:00', '2023-10-01 12:00:00');
+/*!40000 ALTER TABLE `amenities` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `states`
 --
