@@ -3,9 +3,7 @@
 Contains the class DBStorage
 """
 
-from os import getenv
 import models
-import sqlalchemy
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
 from models.city import City
@@ -13,17 +11,13 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from os import getenv
+import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {
-    "Amenity": Amenity,
-    "City": City,
-    "Place": Place,
-    "Review": Review,
-    "State": State,
-    "User": User
-}
+classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 
 class DBStorage:
@@ -83,32 +77,30 @@ class DBStorage:
 
     def get(self, cls, id):
         """
-        Returns the object based on the class name and its ID, or None if not
-        found
+        Returns the object based on the class name and its ID, or
+        None if not found
         """
-        cls_name = cls.__name__ if isinstance(cls, type) else cls
-        if cls_name not in classes:
+        if cls not in classes.values():
             return None
-        objects = self.__session.query(classes[cls_name])
-        for obj in objects:
-            if obj.id == id:
-                return obj
+
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if (value.id == id):
+                return value
+
         return None
 
     def count(self, cls=None):
         """
-        Returns the number of objects in storage matching the given class name.
-        If no name is passed, returns the count of all objects in storage.
+        count the number of objects in storage
         """
-        nobjects = 0
-        for clss in classes:
-            if cls is None or cls is classes[clss] or cls is clss:
-                nobjects += len(self.__session.query(classes[clss]).all())
-        return nobjects
+        all_class = classes.values()
 
-    # def drop_all_tables(self):
-    #     """Drops all tables in the database"""
-    #     for clss in classes.values():
-    #         self.__engine.execute(
-    #             f"DROP TABLE IF EXISTS {clss.__tablename__} CASCADE"
-    #         )
+        if not cls:
+            count = 0
+            for clas in all_class:
+                count += len(models.storage.all(clas).values())
+        else:
+            count = len(models.storage.all(cls).values())
+
+        return count
