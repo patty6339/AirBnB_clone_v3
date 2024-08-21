@@ -54,6 +54,7 @@ class BaseModel:
     #                                      self.__dict__)
 
     def __str__(self):
+        """Returns a string representation of the BaseModel instance"""
         return "[BaseModel] ({}) {}".format(self.id, self.__dict__)
 
     def save(self):
@@ -77,7 +78,3 @@ class BaseModel:
     def delete(self):
         """delete the current instance from the storage"""
         models.storage.delete(self)
-
-    def __str__(self):
-        """Returns a string representation of the BaseModel instance"""
-        return "[BaseModel] ({}) {}".format(self.id, self.__dict__)
