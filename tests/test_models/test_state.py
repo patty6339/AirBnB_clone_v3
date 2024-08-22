@@ -124,7 +124,8 @@ class TestState(unittest.TestCase):
                 sqlalchemy.orm.attributes.InstrumentedAttribute
             )
         else:
-            pass
+            self.assertIsInstance(state.name, str)
+            self.assertEqual(state.name, "")
 
     def test_to_dict_creates_dict(self):
         """test to_dict method creates a dictionary with proper attrs"""
